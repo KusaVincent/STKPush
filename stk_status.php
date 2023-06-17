@@ -5,8 +5,8 @@ function checkStkPush(array $stkStatusValues) : void
     $stk_curl_response = checkStkPushStatus($stkStatusValues);
     $decodedStkResponse= json_decode($stk_curl_response, true);
 
-    if (sizeof($decodedStkResponse) > 5) {
-        $logs_success = fopen("mpesa_responses.log", "a");
+    if ($decodedStkResponse && sizeof($decodedStkResponse) > 5) {
+        $logs_success = fopen("mpesa_response.log", "a");
         fwrite($logs_success, "\n\n\n" . $stk_curl_response . "\n");
         fclose($logs_success);
 
@@ -23,7 +23,7 @@ function checkStkPush(array $stkStatusValues) : void
 function checkStkPushToken(string $consumerKey, string $consumerSecret) : string
 {
     $headers        = ['Content-Type:application/json; charset=utf8'];
-    $curl_response  = curl($_ENV['SAFARICOM_LIPA_URL'], $headers, 'stk_status_token', $consumerKey . ':' . $consumerSecret);
+    $curl_response  = curl($_ENV['SAFARICOM_TOKEN_URL'], $headers, 'stk_status_token', $consumerKey . ':' . $consumerSecret);
 
     $result_response= json_decode($curl_response);
 

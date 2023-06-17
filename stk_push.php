@@ -1,6 +1,6 @@
 <?php
 
-function stkPush(array $stkValues) : string
+function stkPush(array $stkValues) : mixed
 {
     $access_token = newAccessToken($stkValues['consumerKey'], $stkValues['consumerSecret']);
 

@@ -1,0 +1,6 @@
+{
+    "require": {
+        "nesbot/carbon": "^2.67",
+        "vlucas/phpdotenv": "^5.5"
+    }
+}

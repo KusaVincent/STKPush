@@ -1,21 +1,13 @@
 <?php
 
-function newAccessToken() : string
+function newAccessToken(string $consumerKey, string $consumerSecret) : string
 {
-    $url               = $_ENV['SAFARICOM_URL'];
-    $credentials       = base64_encode($_ENV['CONSUMER_KEY'] . ":" . $_ENV['CONSUMER_SECRET']);
+    $credentials = base64_encode($consumerKey . ":" .$consumerSecret);
+    $curl_header = array("Authorization: Basic " . $credentials, "Content-Type:application/json");
 
-    $curl = curl_init();
+    $curl_response = curl($_ENV['SAFARICOM_TOKEN_URL'], $curl_header, 'token');
 
-    curl_setopt($curl, CURLOPT_URL, $url);
-    curl_setopt($curl, CURLOPT_HTTPHEADER, array("Authorization: Basic " . $credentials, "Content-Type:application/json"));
-    curl_setopt($curl, CURLOPT_HEADER, false);
-    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-    $curl_response = curl_exec($curl);
-    $access_token = json_decode($curl_response);
-
-    curl_close($curl);
+    $access_token  = json_decode($curl_response);
 
     return $access_token->access_token;
 }

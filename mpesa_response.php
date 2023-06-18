@@ -25,11 +25,11 @@ function handleMpesaResponse (object $callbackData) : array
   ];
   
   if ($resultCode == 0) {
-    writeMpesaLog($result, 'transaction');
+    writeMpesaLog($result, 'mpesa_response');
     return $result;
   }
   
-  writeMpesaLog($result, 'failed_transaction');
+  writeMpesaLog($result, 'mpesa_response');
   
   return $result;
 }

@@ -10,4 +10,4 @@ $callbackData = json_decode($mpesaResponse);
 
 $response = handleMpesaResponse($callbackData);
 
-writeMpesaLog($response, 'result');
+writeMpesaLog($response, 'mpesa_response');

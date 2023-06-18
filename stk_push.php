@@ -1,10 +1,8 @@
 <?php
 
-function stkPush(array $stkValues) : mixed
+function stkPush(array $stkValues) : string
 {
-    $access_token = newAccessToken($stkValues['consumerKey'], $stkValues['consumerSecret']);
-
-    $curl_post_data = [
+    $curlPostData = [
         'Amount'            => $stkValues['amount'],
         'Password'          => $stkValues['password'],
         'Timestamp'         => $stkValues['timestamp'],
@@ -18,13 +16,15 @@ function stkPush(array $stkValues) : mixed
         'BusinessShortCode' => $stkValues['businessShortCode']
     ];
 
-    $data_string = json_encode($curl_post_data);
+    $dataString = json_encode($curlPostData);
 
-    $curl_header = array('Content-Type:application/json', 'Authorization:Bearer ' . $access_token);
+    $curlHeader = array('Content-Type:application/json', 'Authorization:Bearer ' . $stkValues['accessToken']);
 
-    $curl_response = curl($_ENV['SAFARICOM_ENDPOINT_URL'], $curl_header, 'stk_push', $data_string);
+    $curlResponse = curl($_ENV['SAFARICOM_ENDPOINT_URL'], $curlHeader, 'stk_push', $dataString);
 
-    $decoded_curl_response = json_decode($curl_response, true);
+    $decodedCurlResponse = json_decode($curlResponse, true);
     
-    return $decoded_curl_response['CheckoutRequestID'];
+    $CheckoutRequestID = $decodedCurlResponse['ResponseCode'] == "0" ? $decodedCurlResponse['CheckoutRequestID'] : "";
+    
+    return $CheckoutRequestID;
 }

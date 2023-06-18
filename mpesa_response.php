@@ -10,13 +10,11 @@ function handleMpesaResponse (object $callbackData) : array
 
   $amount             = $metadata->Item[0]->Value;
   $mpesaReceiptNumber = $metadata->Item[1]->Value;
-  $balance            = $metadata->Item[2]->Value;
   $transactionDate    = $metadata->Item[3]->Value;
   $phoneNumber        = $metadata->Item[4]->Value;
   
   $result = [
     "amount"             => $amount,
-    "balance"            => $balance,
     "resultDesc"         => $resultDesc,
     "resultCode"         => $resultCode,
     "phoneNumber"        => $phoneNumber,

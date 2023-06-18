@@ -17,10 +17,6 @@ function curl(string $url, array $curl_header, string $methodFor, string $data_s
             curl_setopt($curl, CURLOPT_POST, true);
             curl_setopt($curl, CURLOPT_POSTFIELDS, $data_string);
             break;
-        case 'stk_status_token' :
-            curl_setopt($curl, CURLOPT_HEADER, false);
-            curl_setopt($curl, CURLOPT_USERPWD, $data_string); //key and secret
-            break;
         case 'stk_status_response' :
             curl_setopt($curl, CURLOPT_POST, true);
             curl_setopt($curl, CURLOPT_HEADER, false);

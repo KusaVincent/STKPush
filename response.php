@@ -1,24 +1,27 @@
 <?php
 
-function checkout(int $result_code, string $checkout_request_id) : array
+function checkoutResponse(int $resultCode, string $CheckoutRequestID) : array
 {
-    $results = array();
-    $results['checkout_request_id'] = null;
+    $result = array();
+    $result['CheckoutRequestID'] = null;
 
-    switch($result_code) {
+    switch($resultCode) {
         case 0:
-            $results['server_response'] = "successful";
-            $results['checkout_request_id'] = $checkout_request_id;
+            $result['paymentResponse'] = "successful";
+            $result['CheckoutRequestID'] = $CheckoutRequestID;
             break;
-        case 1037:
-            $results['server_response'] = "timeout";
+        case 1:
+            $result['paymentResponse'] = "insufficient";
             break;
         case 1032:
-            $results['server_response'] = "cancelled";
+            $result['paymentResponse'] = "cancelled";
+            break;
+        case 1037:
+            $result['paymentResponse'] = "timeout";
             break;
         default:
-            $results['server_response'] = "limited";
+            $result['paymentResponse'] = "error";
     }
 
-    return $results;
+    return $result;
 }

@@ -2,8 +2,8 @@
 use Carbon\Carbon;
 use Dotenv\Dotenv;
 
-function include_file($file_name) {
-    require_once __DIR__ . '/' . $file_name . '.php';
+function include_file($fileName) {
+    require_once __DIR__ . '/' . $fileName . '.php';
 }
 
 include_file('curl');
@@ -16,45 +16,44 @@ include_file('helpers/index');
 include_file('mpesa_response');
 include_file('vendor/autoload');
 
-$dotenv     = Dotenv::createImmutable(__DIR__)->load();
-$timestamp  = Carbon::rawParse('now')->format('YmdHms');
+Dotenv::createImmutable(__DIR__)->load();
 
-$database_data = select_rows("SELECT * FROM MPESASHORTCODE WHERE mpesaShortCodeId = 'MSC20230617XCVD'")[0];
+function mpesa(array $paymentData) : array
+{
+    $timestamp      = Carbon::rawParse('now')->format('YmdHms');
+    $accessToken    = newAccessToken($paymentData['consumerKey'], $paymentData['consumerSecret']);
+    $password       = lipaNaMpesaPassword($paymentData['businessShortCode'], $paymentData['passKey'], $timestamp);
 
-//from db
-$passKey = $database_data['mpesaShortCodePassKey'];
-$description = $database_data['mpesaShortCodeType']; 
-$accountReference = $database_data['mpesaShortCodeName'];
-$consumerKey = $database_data['mpesaShortCodeConsumerKey'];
-$businessShortCode = $database_data['mpesaShortCodeValue'];
-$consumerSecret = $database_data['mpesaShortCodeConsumerSecret'];
+    $stkValues      = [
+        'password'          => $password,
+        'timestamp'         => $timestamp,
+        'accessToken'       => $accessToken,
+        'amount'            => $paymentData['amount'],
+        'phoneNumber'       => $paymentData['phoneNumber'],
+        'description'       => $paymentData['description'],
+        'accountReference'  => $paymentData['accountReference'],
+        'businessShortCode' => $paymentData['businessShortCode']
+    ];
 
-$password = lipaNaMpesaPassword($businessShortCode, $passKey, $timestamp);
+    $stkStatusValues    = array_slice($stkValues, 0, 4, true);
+    $stkStatusValues   += array_slice($stkValues, 7, 1, true);
 
-$amount = 1;
-$phoneNumber= '254798749323';
+    $stkStatusValues['CheckoutRequestID'] = stkPush($stkValues);
 
-$stkValues = [
-    'amount'            => $amount,
-    'password'          => $password,
-    'timestamp'         => $timestamp,
-    'phoneNumber'       => $phoneNumber,
-    'consumerKey'       => $consumerKey,
-    'description'       => $description,
-    'consumerSecret'    => $consumerSecret,
-    'accountReference'  => $accountReference,
-    'businessShortCode' => $businessShortCode
-];
+    return checkStkPush($stkStatusValues);
+}
 
-$CheckoutRequestID = stkPush($stkValues);
+// $databaseData = select_rows("SELECT * FROM MPESASHORTCODE WHERE mpesaShortCodeId = 'MSC20230617XCVD'")[0];
+// $samplePaymentData = [
+//     'amount'            => 1,
+//     'phoneNumber'       => '254798749323',
+//     'accountReference'  => $databaseData['mpesaShortCodeName'],
+//     'description'       => $databaseData['mpesaShortCodeType'],
+//     'businessShortCode' => $databaseData['mpesaShortCodeValue'],
+//     'passKey'           => $databaseData['mpesaShortCodePassKey'],
+//     'consumerKey'       => $databaseData['mpesaShortCodeConsumerKey'],
+//     'consumerSecret'    => $databaseData['mpesaShortCodeConsumerSecret'],
+// ]; //fetching these from the database
 
-$stkStatusValues = [
-    'password'          => $password,
-    'timestamp'         => $timestamp,
-    'consumerKey'       => $consumerKey,
-    'consumerSecret'    => $consumerSecret,
-    'CheckoutRequestID' => $CheckoutRequestID,
-    'businessShortCode' => $businessShortCode
-];
-
-checkStkPush($stkStatusValues);
+// echo '<pre>';
+// var_dump(mpesa($samplePaymentData));

@@ -43,7 +43,7 @@ function mpesa(array $paymentData) : array
     return checkStkPush($stkStatusValues);
 }
 
-// $databaseData = select_rows("SELECT * FROM MPESASHORTCODE WHERE mpesaShortCodeId = 'MSC20230617XCVD'")[0];
+// $databaseData = select_rows("SELECT * FROM MPESASHORTCODE WHERE mpesaShortCodeId = '1'")[0];
 // $samplePaymentData = [
 //     'amount'            => 1,
 //     'phoneNumber'       => '254798749323',

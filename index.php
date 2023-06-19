@@ -65,3 +65,5 @@ function mpesa(array $paymentData) : array
 
 // echo '<pre>';
 // var_dump(mpesa($samplePaymentData));
+
+//create function to check length, datatype

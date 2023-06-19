@@ -11,6 +11,7 @@ include_file('response');
 include_file('password');
 include_file('stk_push');
 include_file('stk_status');
+include_file('phone_number');
 include_file('access_token');
 include_file('helpers/index');
 include_file('mpesa_response');
@@ -20,6 +21,13 @@ Dotenv::createImmutable(__DIR__)->load();
 
 function mpesa(array $paymentData) : array
 {
+    $phoneNumber    = formatPhoneNumber($paymentData['phoneNumber']);
+
+    if(!$phoneNumber) {
+        $result['error'] = "phone number incorrect.";
+        return $result;
+    }
+
     $timestamp      = Carbon::rawParse('now')->format('YmdHms');
     $accessToken    = newAccessToken($paymentData['consumerKey'], $paymentData['consumerSecret']);
     $password       = lipaNaMpesaPassword($paymentData['businessShortCode'], $paymentData['passKey'], $timestamp);
@@ -28,8 +36,8 @@ function mpesa(array $paymentData) : array
         'password'          => $password,
         'timestamp'         => $timestamp,
         'accessToken'       => $accessToken,
+        'phoneNumber'       => $phoneNumber,
         'amount'            => $paymentData['amount'],
-        'phoneNumber'       => $paymentData['phoneNumber'],
         'description'       => $paymentData['description'],
         'accountReference'  => $paymentData['accountReference'],
         'businessShortCode' => $paymentData['businessShortCode']
@@ -46,7 +54,7 @@ function mpesa(array $paymentData) : array
 // $databaseData = select_rows("SELECT * FROM MPESASHORTCODE WHERE mpesaShortCodeId = '1'")[0];
 // $samplePaymentData = [
 //     'amount'            => 1,
-//     'phoneNumber'       => '254798749323',
+//     'phoneNumber'       => '798749323',
 //     'accountReference'  => $databaseData['mpesaShortCodeName'],
 //     'description'       => $databaseData['mpesaShortCodeType'],
 //     'businessShortCode' => $databaseData['mpesaShortCodeValue'],

@@ -10,10 +10,8 @@ function checkStkPush(array $stkStatusValues) : array
         // Call your function to keep on checking for mpesa response
     } 
 
-    $log = fopen("mpesa_response.log", "a");
-    fwrite($log, "\n\n\n" . $stkCurlResponse . "\n");
-    fclose($log);
-
+    writeMpesaLog($stkCurlResponse, 'mpesa_response');
+    
     $resultCode         = $decodedStkResponse['ResultCode'];
     $CheckoutRequestID  = $decodedStkResponse['CheckoutRequestID'];
 

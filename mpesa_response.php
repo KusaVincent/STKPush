@@ -37,6 +37,6 @@ function handleMpesaResponse (object $callbackData) : array
 function writeMpesaLog(array|string $result, string $fileName) : void
 {
   $log = fopen($fileName . '.log', 'a');
-  fwrite($log, "\n" .  json_encode($result));
+  fwrite($log, "\n\n\n" . $result . "\n");
   fclose($log);
 }

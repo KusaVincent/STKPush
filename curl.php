@@ -1,12 +1,12 @@
 <?php
 
-function curl(string $url, array $curl_header, string $methodFor, string $data_string = null) : mixed
+function curl(string $url, array $curlHeader, string $methodFor, string $dataString = null) : mixed
 {
     $curl = curl_init();
 
     curl_setopt($curl, CURLOPT_URL, $url);
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($curl, CURLOPT_HTTPHEADER, $curl_header);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, $curlHeader);
 
     switch($methodFor) {
         case 'token' :
@@ -15,17 +15,17 @@ function curl(string $url, array $curl_header, string $methodFor, string $data_s
             break;
         case 'stk_push' :
             curl_setopt($curl, CURLOPT_POST, true);
-            curl_setopt($curl, CURLOPT_POSTFIELDS, $data_string);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $dataString);
             break;
         case 'stk_status_response' :
             curl_setopt($curl, CURLOPT_POST, true);
             curl_setopt($curl, CURLOPT_HEADER, false);
-            curl_setopt($curl, CURLOPT_POSTFIELDS, $data_string);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $dataString);
             break;
     }
     
-    $curl_response = curl_exec($curl);
+    $curlResponse = curl_exec($curl);
     curl_close($curl);
 
-    return $curl_response;
+    return $curlResponse;
 }

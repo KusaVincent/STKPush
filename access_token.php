@@ -2,12 +2,12 @@
 
 function newAccessToken(string $consumerKey, string $consumerSecret) : string
 {
-    $credentials = base64_encode($consumerKey . ":" .$consumerSecret);
-    $curl_header = array("Authorization: Basic " . $credentials, "Content-Type:application/json");
+    $credential = base64_encode($consumerKey . ":" .$consumerSecret);
+    $curlHeader = array("Authorization: Basic " . $credential, "Content-Type:application/json");
 
-    $curl_response = curl($_ENV['SAFARICOM_TOKEN_URL'], $curl_header, 'token');
+    $curlResponse = curl($_ENV['SAFARICOM_TOKEN_URL'], $curlHeader, 'token');
 
-    $access_token  = json_decode($curl_response);
+    $accessToken  = json_decode($curlResponse);
 
-    return $access_token->access_token;
+    return $accessToken->access_token;
 }

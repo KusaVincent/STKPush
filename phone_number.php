@@ -1,6 +1,6 @@
 <?php
 
-function formatPhoneNumber(string $phoneNumber) : string
+function formatPhoneNumber(string $phoneNumber) : string | bool
 {
     $numLength   = strlen($phoneNumber);
     $countryCode = $_ENV['COUNTRY_CODE'];

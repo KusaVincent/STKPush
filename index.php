@@ -22,13 +22,13 @@ Dotenv::createImmutable(__DIR__)->load();
 
 function mpesa(array $paymentData) : array
 {
-    $timestamp      = Carbon::rawParse('now')->format('YmdHms');
-    $accessToken    = newAccessToken($paymentData['consumerKey'], $paymentData['consumerSecret']);
-    $password       = lipaNaMpesaPassword($paymentData['businessShortCode'], $paymentData['passKey'], $timestamp);
+    $currentTimestamp   = Carbon::rawParse('now')->format('YmdHms');
+    $accessToken        = newAccessToken($paymentData['consumerKey'], $paymentData['consumerSecret']);
+    $password           = lipaNaMpesaPassword($paymentData['businessShortCode'], $paymentData['passKey'], $currentTimestamp);
 
     $stkValues      = [
         'password'          => $password,
-        'timestamp'         => $timestamp,
+        'timestamp'         => $currentTimestamp,
         'accessToken'       => $accessToken,
         'amount'            => $paymentData['amount'],
         'phoneNumber'       => $paymentData['phoneNumber'],

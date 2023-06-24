@@ -70,14 +70,20 @@
    Authorization is needed when sending both stkpush and stk status request, this function generates access token 
    which is passed on the curl header to prove that it is you, without it the request fails.
    To generate the token, we need a credential which is passed on the curl header with other options.
-   Credential : `consumer key : consumer secret` is passed, an object is returned. Extract of `access_token` from the object is returned by the function.
+   Credential {`consumer key : consumer secret`} is passed, an object is returned. Extract of `access_token` from the object is returned by the function.
 2. #### curl
+   The function consolidates any http request together, accepting few param that help with customizing the request to the current needs.
 3. #### checkStkPush
+   Keeps on checking if a response has been received from stkPush function request, It takes array values{`stkStatusValues`} as highlighted in the `mpesa` function.
 4. #### checkStkPushStatus
+   We use the `CheckoutRequestID` from the stkPush and earlier generated `access_token`, call curl to send a http request.
 5. #### checkoutResponse
+   Successful http response is then decoded using this function.
 6. #### formatPhoneNumber
+   Customizes the user phone number into the standard and Safaricom expected phone number format.
 7. #### sanitizeSTKData
+   Used for data validation before passing it as a request.
 8. #### writeMpesaLog
+    For logging returned response. Used by multiple functions here.
 9.  #### handleMpesaResponse
-
-   
+    Handles the Safaricom callback to a data that can be consumed by our system. As of now it just logs but the data it returned can be stored into the DB if using a live system.

@@ -87,3 +87,20 @@
     For logging returned response. Used by multiple functions here.
 9.  #### handleMpesaResponse
     Handles the Safaricom callback to a data that can be consumed by our system. As of now it just logs but the data it returned can be stored into the DB if using a live system.
+
+#### Flow Diagram
+Request
+```sequence
+password;timestamp;access_token-->stkPush:
+stkPush->checkStkPush:checks request status
+password;timestamp;access_token-->checkStkPushStatus:
+checkStkPushStatus->checkoutResponse:
+checkoutResponse-->checkStkPushStatus:
+checkStkPush->checkoutResponse:
+```
+Callback
+```sequence
+callback->callback_url:
+callback_url->handleMpesaResponse:
+handleMpesaResponse-->DB/LOG:
+```

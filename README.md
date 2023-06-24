@@ -67,13 +67,17 @@
 
 ## More Functions
 1. #### newAccessToken
-1. #### curl
-1. #### checkStkPush
-1. #### checkStkPushStatus
-1. #### checkoutResponse
-1. #### formatPhoneNumber
-1. #### sanitizeSTKData
-1. #### writeMpesaLog
-1. #### handleMpesaResponse
+   Authorization is needed when sending both stkpush and stk status request, this function generates access token 
+   which is passed on the curl header to prove that it is you, without it the request fails.
+   To generate the token, we need a credential which is passed on the curl header with other options.
+   Credential : `consumer key : consumer secret` is passed, an object is returned. Extract of `access_token` from the object is returned by the function.
+2. #### curl
+3. #### checkStkPush
+4. #### checkStkPushStatus
+5. #### checkoutResponse
+6. #### formatPhoneNumber
+7. #### sanitizeSTKData
+8. #### writeMpesaLog
+9.  #### handleMpesaResponse
 
    

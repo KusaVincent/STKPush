@@ -46,20 +46,16 @@ function mpesa(array $paymentData) : array
 }
 
 // $databaseData = select_rows("SELECT * FROM MPESASHORTCODE WHERE mpesaShortCodeId = 'MSC20230617XCVD'")[0];
-
-// $samplePaymentData = array();
-
-// $amount = '1';
-// $phoneNumber    = formatPhoneNumber('0798749323');
-
-// if(sanitizeSTKData($phoneNumber))                                                           $samplePaymentData['phoneNumber'] = $phoneNumber;
-// if(sanitizeSTKData($amount, ['numeric']))                                       $samplePaymentData['amount'] = $amount;
-// if(sanitizeSTKData($databaseData['mpesaShortCodeName'], ['string']))            $samplePaymentData['accountReference'] = $databaseData['mpesaShortCodeName'];
-// if(sanitizeSTKData($databaseData['mpesaShortCodeType'], ['string']))            $samplePaymentData['description'] = $databaseData['mpesaShortCodeType'];
-// if(sanitizeSTKData($databaseData['mpesaShortCodeValue'], ['number']))           $samplePaymentData['businessShortCode'] = $databaseData['mpesaShortCodeValue'];
-// if(sanitizeSTKData($databaseData['mpesaShortCodePassKey'], ['string']))         $samplePaymentData['passKey'] = $databaseData['mpesaShortCodePassKey'];
-// if(sanitizeSTKData($databaseData['mpesaShortCodeConsumerKey'], ['string']))     $samplePaymentData['consumerKey'] = $databaseData['mpesaShortCodeConsumerKey'];
-// if(sanitizeSTKData($databaseData['mpesaShortCodeConsumerSecret'], ['string']))  $samplePaymentData['consumerSecret'] = $databaseData['mpesaShortCodeConsumerSecret'];
+// $samplePaymentData = [
+//     'amount'            => 1,
+//     'phoneNumber'       => '254798749323',
+//     'accountReference'  => $databaseData['mpesaShortCodeName'],
+//     'description'       => $databaseData['mpesaShortCodeType'],
+//     'businessShortCode' => $databaseData['mpesaShortCodeValue'],
+//     'passKey'           => $databaseData['mpesaShortCodePassKey'],
+//     'consumerKey'       => $databaseData['mpesaShortCodeConsumerKey'],
+//     'consumerSecret'    => $databaseData['mpesaShortCodeConsumerSecret'],
+// ]; //fetching these from the database
 
 // echo '<pre>';
-// var_dump(($samplePaymentData));
+// var_dump(mpesa($samplePaymentData));

@@ -11,7 +11,6 @@ include_file('response');
 include_file('password');
 include_file('stk_push');
 include_file('stk_status');
-include_file('input_sanity');
 include_file('phone_number');
 include_file('access_token');
 include_file('helpers/index');

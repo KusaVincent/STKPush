@@ -1,4 +1,4 @@
-# Safaricom STK Pushk
+# Safaricom STK Push
 
 ---
 **Table of contents**
